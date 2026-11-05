@@ -1,0 +1,10 @@
+# Default owners — mobile
+* @TheoSauval
+# TODO Nathan (mobile)
+
+# App source — mobile
+/src/ @TheoSauval
+# TODO Nathan (mobile)
+
+# GitHub / CI — ops
+.github/ @bisounours1111 @Kob0o

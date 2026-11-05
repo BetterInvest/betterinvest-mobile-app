@@ -1,0 +1,35 @@
+name: Branch source check
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  branch-source-check:
+    name: branch-source-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR base/head pairing
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          echo "Base: ${BASE_REF}"
+          echo "Head: ${HEAD_REF}"
+          if [ "${BASE_REF}" != "main" ]; then
+            echo "Base is not main — check skipped."
+            exit 0
+          fi
+          case "${HEAD_REF}" in
+            develop|hotfix/*)
+              echo "Head branch allowed for main."
+              exit 0
+              ;;
+            *)
+              echo "::error::PRs into main must come from develop or hotfix/* (got: ${HEAD_REF})"
+              exit 1
+              ;;
+          esac
